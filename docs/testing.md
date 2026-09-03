@@ -23,4 +23,9 @@ not provide the XCTest module. Use a complete Xcode developer toolchain (or
 the macOS CI runner) for `scripts/macos/test.sh`; this does not add an Xcode
 project to the repository.
 
+CI explicitly selects an installed Xcode toolchain whose compiler reports
+Swift 6 before running tests or packaging. A runner image without Swift 6 is a
+configuration failure rather than a reason to lower the package's language
+mode.
+
 Because V1 supports macOS 13 and later, a release must include a real macOS 13 validation run for every architecture it claims to support. A build-only deployment-target check is not evidence that Accessibility and physical media-key routing work on that system.

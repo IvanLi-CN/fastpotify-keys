@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
+      - name: Select Swift 6 toolchain
+        run: scripts/ci/select-swift6.sh
       - name: Run Swift tests
         run: scripts/macos/test.sh
 
@@ -25,6 +27,8 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v4
+      - name: Select Swift 6 toolchain
+        run: scripts/ci/select-swift6.sh
       - name: Build universal Ad Hoc app
         run: scripts/macos/package.sh --output-dir "$RUNNER_TEMP/fastpotify-keys-dist"
       - name: Verify release artifact
