@@ -47,8 +47,10 @@
 - Inputs: a semantic version tag and two SwiftPM target-triple builds.
 - Outputs: signed `.app`, DMG, `SHA256SUMS`, and a non-published GitHub Draft Release.
 - Release and pull-request automation MUST select a toolchain whose compiler
-  reports Swift 6 before invoking SwiftPM; the current hosted runner is
-  macOS 15, while the product deployment baseline remains macOS 13.
+  reports Swift 6 before invoking SwiftPM. Selection MUST resolve the compiler
+  through the Xcode developer directory (`DEVELOPER_DIR`/`xcrun`), rather than
+  assuming a fixed Xcode binary path. The current hosted runner is macOS 15,
+  while the product deployment baseline remains macOS 13.
 
 ## Verification
 
