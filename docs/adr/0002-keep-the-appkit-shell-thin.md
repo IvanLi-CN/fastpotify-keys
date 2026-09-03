@@ -4,4 +4,4 @@ The app uses SwiftUI's `MenuBarExtra` as its only visible scene and a local Swif
 
 ## Consequences
 
-The Xcode app target owns the menu-bar surface, event-tap lifecycle, Accessibility prompt, and login-item integration. The core package must not depend on AppKit and remains testable through Swift Package Manager. Swift 6 complete strict concurrency is enabled: UI stays main-actor isolated, while the core owns its serial dispatch boundary and narrowly contains the C callback bridge. Because the product supports macOS 13, view state uses `ObservableObject` and `@Published` rather than the macOS 14-only Observation macros.
+The macOS app target owns the menu-bar surface, event-tap lifecycle, Accessibility prompt, and login-item integration. The core package must not depend on AppKit and remains testable through Swift Package Manager. Swift 6 complete strict concurrency is enabled: UI stays main-actor isolated, while the core owns its serial dispatch boundary and narrowly contains the C callback bridge. Because the product supports macOS 13, view state uses `ObservableObject` and `@Published` rather than the macOS 14-only Observation macros.

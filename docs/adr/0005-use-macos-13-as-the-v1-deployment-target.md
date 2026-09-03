@@ -1,6 +1,6 @@
 # Use macOS 13 as the V1 deployment target
 
-V1 supports macOS 13.0 and later. The Xcode app target and the local Swift package will both declare that deployment target.
+V1 supports macOS 13.0 and later. The SwiftPM manifest and its app and core targets will declare that deployment target.
 
 ## Decision Drivers
 

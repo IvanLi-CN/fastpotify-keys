@@ -3,7 +3,7 @@
 Fastpotify Keys validates its behavior at four layers.
 
 - Core unit tests cover media-key decoding, forwarding readiness, executable discovery, CLI arguments, timeouts, and the preservation of distinct media-key gestures.
-- macOS CI runs core tests and builds the app with full Xcode.
+- macOS CI runs the SwiftPM core tests and builds the app for both advertised target triples.
 - Release validation verifies both universal architectures, the Ad Hoc signature, DMG mountability, and published SHA-256 checksums.
 - A real Mac release checklist covers Accessibility authorization changes, target liveness, another player in the foreground, sleep/wake, and event-tap recovery.
 
