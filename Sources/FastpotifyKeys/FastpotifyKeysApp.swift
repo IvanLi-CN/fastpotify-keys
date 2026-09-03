@@ -8,6 +8,7 @@ struct FastpotifyKeysApp: App {
         MenuBarExtra("Fastpotify Keys", systemImage: "music.note") {
             FastpotifyKeysMenu(state: applicationDelegate.state)
         }
+        .menuBarExtraStyle(.menu)
     }
 }
 
