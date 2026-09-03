@@ -4,9 +4,9 @@
 
 ## Current Status
 
-- Implementation: 实现中
+- Implementation: V1 implementation present; real-Mac release validation pending
 - Lifecycle: active
-- Catalog note: SwiftPM app/core/test targets and Ad Hoc packaging are being added.
+- Catalog note: SwiftPM app/core/test targets, Ad Hoc packaging, CI, and user-facing docs are checked in.
 
 ## Implementation Coverage
 
@@ -16,7 +16,7 @@
 
 ## Coverage / rollout summary
 
-- The first implementation slice is being assembled from the fixed macOS 13 baseline.
+- The first implementation slice is assembled from the fixed macOS 13 baseline. Local app compilation has passed; XCTest and physical media-key checks remain environment-dependent.
 
 ## Remaining Gaps
 

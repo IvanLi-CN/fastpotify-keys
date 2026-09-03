@@ -1,0 +1,15 @@
+{
+  "pullRequestsRequired": true,
+  "requiredChecks": [
+    "PR / Swift tests",
+    "PR / Build app"
+  ],
+  "requiredReviewCount": 0,
+  "signedCommitsRequired": true,
+  "dcoRequired": true,
+  "tagRelease": {
+    "pattern": "vX.Y.Z",
+    "draft": true
+  },
+  "remoteRules": "documented-only"
+}
