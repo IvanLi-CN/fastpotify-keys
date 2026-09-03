@@ -46,6 +46,9 @@
 - The project MUST produce a macOS 13+ Ad Hoc universal artifact containing `arm64` and `x86_64` executable slices, a verifiable checksum, and a Draft Release on version tags.
 - Inputs: a semantic version tag and two SwiftPM target-triple builds.
 - Outputs: signed `.app`, DMG, `SHA256SUMS`, and a non-published GitHub Draft Release.
+- Release and pull-request automation MUST select a toolchain whose compiler
+  reports Swift 6 before invoking SwiftPM; the current hosted runner is
+  macOS 15, while the product deployment baseline remains macOS 13.
 
 ## Verification
 
