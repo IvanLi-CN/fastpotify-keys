@@ -6,7 +6,7 @@
 
 - Implementation: V1 implementation present; real-Mac release validation pending
 - Lifecycle: active
-- Catalog note: SwiftPM app/core/test targets, Ad Hoc packaging, CI, and user-facing docs are checked in.
+- Catalog note: SwiftPM app/core/test targets, an explicit `MenuBarExtra(.menu)` surface, Ad Hoc packaging, CI, and user-facing docs are checked in.
 
 ## Implementation Coverage
 
