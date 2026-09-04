@@ -16,7 +16,7 @@
 
 ## Coverage / rollout summary
 
-- The first implementation slice is assembled from the fixed macOS 13 baseline. Local app compilation has passed; XCTest and physical media-key checks remain environment-dependent.
+- The first implementation slice is assembled from the fixed macOS 13 baseline. Local app compilation and XCTest have passed; physical media-key checks remain environment-dependent.
 
 ## Remaining Gaps
 

@@ -92,8 +92,9 @@
 - Surface: the Fastpotify Keys menu-bar popover only (`target_app_window`).
 - Scope: status, forwarding toggle, target selection, Accessibility settings,
   Launch at Login, and Quit controls; no desktop or unrelated menu-bar content.
-- Capture: requires a live macOS session and owner confirmation before the
-  candidate can be treated as visually verified.
+- Evidence: [menu-popover.png](./assets/menu-popover.png).
+- Capture: verified from a live macOS session with owner confirmation; the
+  screenshot contains only the target app's popover.
 
 ## References
 
