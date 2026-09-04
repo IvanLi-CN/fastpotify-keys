@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd "$script_dir/../.." && pwd)"
+version="$(tr -d '[:space:]' < "$repo_root/VERSION")"
+app_path="$repo_root/dist/Fastpotify Keys.app"
+dmg_path="$repo_root/dist/FastpotifyKeys-${version}-universal.dmg"
+checksums_path="$repo_root/dist/SHA256SUMS"
+
+while (($# > 0)); do
+    case "$1" in
+        --app)
+            app_path="$2"
+            shift 2
+            ;;
+        --dmg)
+            dmg_path="$2"
+            shift 2
+            ;;
+        --checksums)
+            checksums_path="$2"
+            shift 2
+            ;;
+        -h|--help)
+            cat <<'USAGE'
+Usage: scripts/macos/verify-release.sh [--app APP] [--dmg DMG] [--checksums SHA256SUMS]
+USAGE
+            exit 0
+            ;;
+        *)
+            printf 'Unknown argument: %s\n' "$1" >&2
+            exit 2
+            ;;
+    esac
+done
+
+for path in "$app_path" "$dmg_path" "$checksums_path"; do
+    if [[ ! -e "$path" ]]; then
+        printf 'Release artifact is missing: %s\n' "$path" >&2
+        exit 1
+    fi
+done
+
+binary="$app_path/Contents/MacOS/FastpotifyKeys"
+plist="$app_path/Contents/Info.plist"
+if [[ ! -x "$binary" ]]; then
+    printf 'App executable is missing or not executable: %s\n' "$binary" >&2
+    exit 1
+fi
+if [[ ! -f "$plist" ]]; then
+    printf 'App Info.plist is missing: %s\n' "$plist" >&2
+    exit 1
+fi
+
+archs="$(lipo -archs "$binary")"
+[[ " $archs " == *" arm64 "* ]] || { printf 'arm64 slice missing: %s\n' "$archs" >&2; exit 1; }
+[[ " $archs " == *" x86_64 "* ]] || { printf 'x86_64 slice missing: %s\n' "$archs" >&2; exit 1; }
+
+codesign --verify --strict --verbose=2 "$app_path"
+signature="$(codesign -dv --verbose=4 "$app_path" 2>&1 || true)"
+if ! grep -q '^Signature=adhoc$' <<< "$signature"; then
+    printf 'Expected an Ad Hoc signature.\n%s\n' "$signature" >&2
+    exit 1
+fi
+
+minimum="$(/usr/libexec/PlistBuddy -c 'Print :LSMinimumSystemVersion' "$plist")"
+[[ "$minimum" == "13.0" ]] || { printf 'Unexpected minimum system version: %s\n' "$minimum" >&2; exit 1; }
+identifier="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$plist")"
+[[ "$identifier" == "cc.ivanli.fastpotifykeys" ]] || { printf 'Unexpected bundle identifier: %s\n' "$identifier" >&2; exit 1; }
+
+hdiutil imageinfo "$dmg_path" >/dev/null
+checksum_dir="$(cd "$(dirname "$checksums_path")" && pwd)"
+(cd "$checksum_dir" && shasum -a 256 -c "$(basename "$checksums_path")")
+
+printf 'Verified universal Ad Hoc release: %s\n' "$dmg_path"

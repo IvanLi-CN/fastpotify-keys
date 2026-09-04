@@ -1,0 +1,40 @@
+name: Main
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  swift-tests:
+    name: Main / Swift tests
+    runs-on: macos-15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Select Swift 6 toolchain
+        run: scripts/ci/select-swift6.sh
+      - name: Run Swift tests
+        run: scripts/macos/test.sh
+
+  build-app:
+    name: Main / Build app
+    runs-on: macos-15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Select Swift 6 toolchain
+        run: scripts/ci/select-swift6.sh
+      - name: Build universal Ad Hoc app
+        run: scripts/macos/package.sh --output-dir "$RUNNER_TEMP/fastpotify-keys-dist"
+      - name: Verify release artifact
+        run: |
+          version="$(tr -d '[:space:]' < VERSION)"
+          scripts/macos/verify-release.sh \
+            --app "$RUNNER_TEMP/fastpotify-keys-dist/Fastpotify Keys.app" \
+            --dmg "$RUNNER_TEMP/fastpotify-keys-dist/FastpotifyKeys-${version}-universal.dmg" \
+            --checksums "$RUNNER_TEMP/fastpotify-keys-dist/SHA256SUMS"
